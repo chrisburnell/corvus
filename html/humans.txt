@@ -1,0 +1,26 @@
+# humanstxt.org
+
+/* OWNER & DEVELOPER */
+
+    Name: Chris Burnell
+    Email: me@chrisburnell.com
+    GitHub: https://github.com/chrisburnell
+    Mastodon: https://mastodon.social/users/chrisburnell
+    Twitter: https://twitter.com/iamchrisburnell
+    PGP: 9604F098260A0057
+
+/* SITE */
+
+    URL:           https://corvus.chrisburnell.com
+    Language:      en
+    Doctype:       HTML5
+    Fonts:         Heebo, Proxima Nova
+
+/* SERVICES */
+
+    Atlas:         https://atlas.p3k.io
+    IndieAuth:     https://indieauth.com
+    Switchboard:   https://switchboard.p3k.io
+    Telegraph:     https://telegraph.p3k.io
+    Twitter:       https://dev.twitter.com
+    Webmention.io: https://webmention.io
