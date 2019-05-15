@@ -4,6 +4,7 @@ date_default_timezone_set('Europe/London');
 $now = new DateTime();
 
 require_once "../config.inc.php";
+require_once "../../api.chrisburnell.com/functions/helpers.php";
 require_once "../functions/helpers.php";
 require_once "../functions/darksky.php";
 

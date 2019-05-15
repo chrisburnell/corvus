@@ -4,10 +4,13 @@ class Config {
     public static $name = 'Example';
     public static $lede = "Lorem ipsum";
     public static $author = "Jane Doe";
+    public static $color = "#5f8aa6";
     public static $site_url = 'https://example.com/';
     public static $host_url = 'https://micropub.example.com/';
     public static $token_endpoint = 'https://tokens.indieauth.com/token';
     public static $static_path = '/static/';
+    public static $categories = array("note");
+    public static $max_file_size = 5; // MB
 
     public static $mastodon = [
         'username' =>     'username',

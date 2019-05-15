@@ -63,10 +63,10 @@ if (isset($_GET["q"])) {
                     return true;
                 }
             });
-            echo '{ "categories": [ "' . implode("","", $matches) . '" ] }';
+            echo '{ "categories": [ "' . implode("\",\"", $matches) . '" ] }';
         }
         else {
-            echo '{ "categories": [ "' . implode("","", Config::$categories) . '" ] }';
+            echo '{ "categories": [ "' . implode("\",\"", Config::$categories) . '" ] }';
         }
         exit;
     }
