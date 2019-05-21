@@ -15,7 +15,7 @@ if (!$_POST) {
 }
 
 $_HEADERS = array();
-foreach(getallheaders() as $name => $value) {
+foreach(\API\getallheaders() as $name => $value) {
     $_HEADERS[$name] = $value;
 }
 
@@ -24,7 +24,7 @@ if (!isset($_HEADERS['Authorization'])) {
     echo 'Missing "Authorization" header.';
     exit;
 }
-elseif ($_HEADERS['Authorization'] != Config::$untappd['token']) {
+elseif ($_HEADERS['Authorization'] != \Corvus\Config::$untappd['token']) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
     echo 'Invalid "Authorization" header.';
     exit;
@@ -94,16 +94,16 @@ posting_method: https://ownyourpint.chrisburnell.com/
 $data = array(
     'message' => 'Beer Check-in: ' . $title,
     'committer' => array(
-        'name' => Config::$github['name'],
-        'email' => Config::$github['email']
+        'name' => \Corvus\Config::$github['name'],
+        'email' => \Corvus\Config::$github['email']
     ),
     'content' => base64_encode($template),
 );
 
-$github_api_url = 'https://api.github.com/repos/' . Config::$github['username'] . '/' . Config::$github['repository'] . '/contents/_posts/beer/' . $now->format('Y-m-d') . '-' . $id . '.md';
+$github_api_url = 'https://api.github.com/repos/' . \Corvus\Config::$github['username'] . '/' . \Corvus\Config::$github['repository'] . '/contents/_posts/beer/' . $now->format('Y-m-d') . '-' . $id . '.md';
 $GITHUB_curl = curl_init($github_api_url);
 curl_setopt($GITHUB_curl, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($GITHUB_curl, CURLOPT_HTTPHEADER, array('User-Agent: ' . Config::$name, 'Authorization: token ' . Config::$github['token']));
+curl_setopt($GITHUB_curl, CURLOPT_HTTPHEADER, array('User-Agent: ' . \Corvus\Config::$name, 'Authorization: token ' . \Corvus\Config::$github['token']));
 curl_setopt($GITHUB_curl, CURLOPT_CUSTOMREQUEST, 'PUT');
 curl_setopt($GITHUB_curl, CURLOPT_POSTFIELDS, json_encode($data));
 
@@ -114,11 +114,11 @@ if (!$GITHUB_response) {
     exit;
 }
 else {
-    echo Config::$site_url . 'beer/' + $id + '/';
+    echo \Corvus\Config::$site_url . 'beer/' + $id + '/';
     curl_close($GITHUB_curl);
 }
 
 header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
-header('Location: https://chrisburnell.com/201.html?q=' . Config::$site_url . 'beer/' + $id + '/');
+header('Location: https://chrisburnell.com/201.html?q=' . \Corvus\Config::$site_url . 'beer/' + $id + '/');
 
 ?>

@@ -7,7 +7,7 @@ if (!$_POST) {
 }
 // Push Headers into an array
 $_HEADERS = array();
-foreach(getallheaders() as $name => $value) {
+foreach(\API\getallheaders() as $name => $value) {
     $_HEADERS[$name] = $value;
 }
 

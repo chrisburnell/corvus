@@ -1,20 +1,22 @@
 <?php
 
 if (!isset($_HEADERS["Authorization"])) {
-    header($_SERVER["SERVER_PROTOCOL"] . " 401 Unauthorized");
-    echo "Missing 'Authorization' header.";
-    // exit;
+    // header($_SERVER["SERVER_PROTOCOL"] . " 401 Unauthorized");
+    require_once "../../api.chrisburnell.com/layouts/header.php";
+    echo "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit id nulla vitae maximus. In bibendum risus in commodo fermentum. Vestibulum elementum turpis ac aliquam pulvinar. Nulla vitae varius lorem. Pellentesque elit leo, elementum sit amet posuere a, malesuada non velit. Maecenas blandit rutrum enim eu sodales. Nullam mi lectus, vehicula sed arcu vel, volutpat dignissim mauris. Maecenas ultricies, lacus ut cursus molestie, dui nunc efficitur metus, vel pulvinar eros diam id mi. Phasellus convallis accumsan enim ac tempor. Quisque porta velit quis maximus ullamcorper. Mauris dictum ultrices nisi molestie aliquet. Donec dictum iaculis ante eget semper. In sit amet enim ac risus tempus feugiat non eu augue.</p>";
+    require_once "../../api.chrisburnell.com/layouts/footer.php";
+    exit;
 }
 else if (!isset($_POST["action"]) and !isset($_POST["h"]) and !isset($_POST["type"])) {
     header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
     echo "Missing 'action', 'h', or 'type' value.";
-    // exit;
+    exit;
 }
 else {
     $AUTHORIZATION_options = array(
-        CURLOPT_URL => Config::$token_endpoint,
+        CURLOPT_URL => \Corvus\Config::$token_endpoint,
         CURLOPT_HTTPGET => TRUE,
-        CURLOPT_USERAGENT => Config::$site_url,
+        CURLOPT_USERAGENT => \Corvus\Config::$site_url,
         CURLOPT_TIMEOUT => 5,
         CURLOPT_RETURNTRANSFER => TRUE,
         CURLOPT_HEADER => FALSE,
@@ -43,10 +45,10 @@ else {
     if (substr($AUTHORIZATION_values["me"], -1) != "/") {
         $AUTHORIZATION_values["me"].= "/";
     }
-    if (substr(Config::$site_url, -1) != "/") {
-        Config::$site_url.= "/";
+    if (substr(\Corvus\Config::$site_url, -1) != "/") {
+        \Corvus\Config::$site_url.= "/";
     }
-    if (strtolower($AUTHORIZATION_values["me"]) != strtolower(Config::$site_url)) {
+    if (strtolower($AUTHORIZATION_values["me"]) != strtolower(\Corvus\Config::$site_url)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
         echo "Mismatching 'me' value in authentication token.";
         exit;

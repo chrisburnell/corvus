@@ -58,7 +58,7 @@ if (isset($_GET["q"])) {
         header("Content-type: application/json");
         if (isset($_GET["search"])) {
             $search = $_GET["search"];
-            $matches = array_filter(Config::$categories, function($category) use ($search) {
+            $matches = array_filter(\Corvus\Config::$categories, function($category) use ($search) {
                 if (strpos($category, $search) !== FALSE) {
                     return true;
                 }
@@ -66,7 +66,7 @@ if (isset($_GET["q"])) {
             echo '{ "categories": [ "' . implode("\",\"", $matches) . '" ] }';
         }
         else {
-            echo '{ "categories": [ "' . implode("\",\"", Config::$categories) . '" ] }';
+            echo '{ "categories": [ "' . implode("\",\"", \Corvus\Config::$categories) . '" ] }';
         }
         exit;
     }
@@ -76,8 +76,8 @@ if (isset($_GET["q"])) {
 
         if ($_GET["q"] === "last") {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, Config::$site_url . "search.json");
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . Config::$name, "Authorization: token " . Config::$github["token"]));
+            curl_setopt($ch, CURLOPT_URL, \Corvus\Config::$site_url . "search.json");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             $response = curl_exec($ch);
             curl_close($ch);
@@ -140,8 +140,8 @@ if (isset($_GET["q"])) {
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/" . Config::$github["username"] . "/" . Config::$github["repository"] . "/contents/_posts/" . $directory);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . Config::$name, "Authorization: token " . Config::$github["token"]));
+        curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/" . \Corvus\Config::$github["username"] . "/" . \Corvus\Config::$github["repository"] . "/contents/_posts/" . $directory);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);
@@ -161,7 +161,7 @@ if (isset($_GET["q"])) {
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . Config::$name, "Authorization: token " . Config::$github["token"]));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);

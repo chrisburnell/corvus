@@ -12,6 +12,16 @@ class Config {
     public static $categories = array("note");
     public static $max_file_size = 5; // MB
 
+    public static $navigation = [
+        "Micropub" => "https://indieweb.org/Micropub"
+    ];
+
+    public static $styles = "
+        .class {
+            color: rebeccapurple;
+        }
+    ";
+
     public static $mastodon = [
         'username' =>     'username',
         'url' =>          'example.com',

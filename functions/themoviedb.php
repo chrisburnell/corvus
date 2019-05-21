@@ -13,28 +13,32 @@
 // 4. Build URL to cover
 //    `secure_base_url` + `still_path`
 
-$curl = curl_init();
+namespace Corvus;
 
-curl_setopt_array($curl, array(
-    CURLOPT_URL => "https://api.themoviedb.org/3/tv/1399/season/5/episode/5?language=en-US&api_key=661f7bcf726d652707d9a1d9af18cf0b",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => "",
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "GET",
-    CURLOPT_POSTFIELDS => "{}",
-));
+class TMDB {
 
-$response = curl_exec($curl);
-$err = curl_error($curl);
+    $curl = curl_init();
 
-curl_close($curl);
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/1399/season/5/episode/5?language=en-US&api_key=661f7bcf726d652707d9a1d9af18cf0b",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_POSTFIELDS => "{}",
+    ));
 
-if ($err) {
-    echo "cURL Error #:" . $err;
-} else {
-    echo $response;
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        echo "cURL Error #:" . $err;
+    } else {
+        echo $response;
+    }
+
 }
-
-?>

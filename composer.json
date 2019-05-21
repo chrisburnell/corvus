@@ -1,0 +1,24 @@
+{
+  "name": "chrisburnell/corvus",
+  "type": "library",
+  "description": "A Micropub endpoint for chrisburnell.com",
+  "keywords": ["indieweb","micropub"],
+  "license": "GNU-GLPv3",
+  "homepage": "https://github.com/chrisburnell/corvus",
+  "authors": [
+    {
+      "name": "Chris Burnell",
+      "homepage": "https://chrisburnell.com/"
+    }
+  ],
+  "require": {
+    "php": ">=5.5"
+  },
+  "require-dev": {
+    "abraham/twitteroauth": ">=1.0.1"
+  },
+  "autoload": {
+  },
+  "autoload-dev": {
+  }
+}
