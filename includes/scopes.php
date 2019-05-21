@@ -11,12 +11,12 @@ if ((isset($_POST["action"]) and $_POST["action"] == "create") or (isset($_POST[
         $uploaded_file_name = (isset($_FILES["photo"]["name"]) ? $_FILES["photo"]["name"] : $_FILES["photo"]["filename"]);
         $uploaded_file_name_temporary = (isset($_FILES["photo"]["tmp_name"]) ? $_FILES["photo"]["tmp_name"] : $uploaded_file_name);
 
-        $path_to_file = \Corvus\Config::$static_path . $uploaded_file_name;
+        $path_to_file = \Config::$static_path . $uploaded_file_name;
 
         $file_type = end(explode(".", $uploaded_file_name));
         $file_name = $now->format("U") . "." . $file_type;
         $file_size = $_FILES["photo"]["size"];
-        $file_size_max = \Corvus\Config::$max_file_size * 1024 * 1024;
+        $file_size_max = \Config::$max_file_size * 1024 * 1024;
 
         if ($file_size <= $file_size_max) {
             // Move the file where we want it
@@ -45,7 +45,7 @@ if ((isset($_POST["action"]) and $_POST["action"] == "create") or (isset($_POST[
         }
         else {
             header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
-            echo "Image is too big! Images must be <" . \Corvus\Config::$max_file_size . "MB.";
+            echo "Image is too big! Images must be <" . \Config::$max_file_size . "MB.";
             exit;
         }
     }
@@ -79,5 +79,3 @@ if (isset($_POST["action"]) and $_POST["action"] == "delete") {
 if (isset($_POST["properties"]["read-of"]) and $_POST["properties"]["read-of"] and $post_to_github) {
     \Corvus\GitHub::post($data, $now, null, null);
 }
-
-?>

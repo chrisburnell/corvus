@@ -26,5 +26,3 @@ if ($data->category !== "note") {
 // $post_to_github = true;
 // $post_to_mastodon = true;
 // $post_to_twitter = true;
-
-?>

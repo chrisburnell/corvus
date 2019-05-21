@@ -5,7 +5,7 @@ namespace Corvus;
 class Darksky {
 
     public static function getWeather($latitude, $longitude) {
-        $url = "https://api.darksky.net/forecast/" . \Corvus\Config::$darksky["token"] . "/$latitude,$longitude?units=" . \Corvus\Config::$darksky["units"];
+        $url = "https://api.darksky.net/forecast/" . \Config::$darksky["token"] . "/$latitude,$longitude?units=" . \Config::$darksky["units"];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

@@ -73,5 +73,3 @@ elseif (isset($data->name) and !empty($data->name)) {
     $data->category = "article";
     $data->directory = "articles";
 }
-
-?>

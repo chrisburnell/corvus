@@ -14,9 +14,9 @@ else if (!isset($_POST["action"]) and !isset($_POST["h"]) and !isset($_POST["typ
 }
 else {
     $AUTHORIZATION_options = array(
-        CURLOPT_URL => \Corvus\Config::$token_endpoint,
+        CURLOPT_URL => \Config::$token_endpoint,
         CURLOPT_HTTPGET => TRUE,
-        CURLOPT_USERAGENT => \Corvus\Config::$site_url,
+        CURLOPT_USERAGENT => \Config::$site_url,
         CURLOPT_TIMEOUT => 5,
         CURLOPT_RETURNTRANSFER => TRUE,
         CURLOPT_HEADER => FALSE,
@@ -45,10 +45,10 @@ else {
     if (substr($AUTHORIZATION_values["me"], -1) != "/") {
         $AUTHORIZATION_values["me"].= "/";
     }
-    if (substr(\Corvus\Config::$site_url, -1) != "/") {
-        \Corvus\Config::$site_url.= "/";
+    if (substr(\Config::$site_url, -1) != "/") {
+        \Config::$site_url.= "/";
     }
-    if (strtolower($AUTHORIZATION_values["me"]) != strtolower(\Corvus\Config::$site_url)) {
+    if (strtolower($AUTHORIZATION_values["me"]) != strtolower(\Config::$site_url)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
         echo "Mismatching 'me' value in authentication token.";
         exit;
@@ -71,5 +71,3 @@ else {
 
     // Everything’s cool if we reach this point.
 }
-
-?>

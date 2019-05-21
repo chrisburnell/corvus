@@ -8,7 +8,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 class Twitter {
     public static function post($data, $now, $mastodon_uri, $post_to_github) {
         // Make the connection based on the account chosen
-        $connection = new TwitterOAuth(\Corvus\Config::$twitter["consumer_key"], \Corvus\Config::$twitter["consumer_secret"], \Corvus\Config::$twitter["access_token"], \Corvus\Config::$twitter["access_token_secret"]);
+        $connection = new TwitterOAuth(\Config::$twitter["consumer_key"], \Config::$twitter["consumer_secret"], \Config::$twitter["access_token"], \Config::$twitter["access_token_secret"]);
 
         // Upload the photo(s), if included
         if ($data->photo !== null) {
@@ -59,5 +59,3 @@ class Twitter {
     }
 
 }
-
-?>

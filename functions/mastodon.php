@@ -6,7 +6,7 @@ class Mastodon {
 
     public static function post($data, $now, $post_to_twitter, $post_to_github) {
         $headers = [
-            "Authorization: Bearer " . \Corvus\Config::$mastodon["token_access"]
+            "Authorization: Bearer " . \Config::$mastodon["token_access"]
         ];
 
         $media_ids = array();
@@ -16,7 +16,7 @@ class Mastodon {
                 "file" => $data->photo
             );
             $ch_media = curl_init();
-            curl_setopt($ch_media, CURLOPT_URL, \Corvus\Config::$mastodon["url"] . "/api/v1/media");
+            curl_setopt($ch_media, CURLOPT_URL, \Config::$mastodon["url"] . "/api/v1/media");
             curl_setopt($ch_media, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch_media, CURLOPT_POST, 1);
             curl_setopt($ch_media, CURLOPT_POSTFIELDS, $media_data);
@@ -34,7 +34,7 @@ class Mastodon {
         );
 
         $ch_status = curl_init();
-        curl_setopt($ch_status, CURLOPT_URL, \Corvus\Config::$mastodon["url"] . "/api/v1/statuses");
+        curl_setopt($ch_status, CURLOPT_URL, \Config::$mastodon["url"] . "/api/v1/statuses");
         curl_setopt($ch_status, CURLOPT_POST, 1);
         curl_setopt($ch_status, CURLOPT_POSTFIELDS, $status_data);
         curl_setopt($ch_status, CURLOPT_RETURNTRANSFER, true);

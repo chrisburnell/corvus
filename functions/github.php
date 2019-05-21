@@ -46,7 +46,7 @@ class GitHub {
             $yaml_title = "\ntitle: \"$title\"";
             if (isset($data->content)) {
 
-                $yaml_lede = "\nlede: \"" . trim(\API\convert_content(str_replace('"', '\"', $data->content), \Corvus\Config::$site_url)) . "\"";
+                $yaml_lede = "\nlede: \"" . trim(\API\convert_content(str_replace('"', '\"', $data->content), \Config::$site_url)) . "\"";
             }
         }
         else {
@@ -88,7 +88,7 @@ class GitHub {
             preg_match_all("/-?\d*\.{0,1}\d+/", $data->checkin, $matches);
             list($latitude, $longitude) = $matches[0];
             $url = "https://atlas.p3k.io/map/img?marker[]=lat:" . $latitude . ";lng:" . $longitude . ";icon:dot-small-gray&basemap=gray&width=810&height=200";
-            copy($url, \Corvus\Config::$static_path . "map_" . $title . ".png");
+            copy($url, \Config::$static_path . "map_" . $title . ".png");
             $yaml_checkin = "\ncheckin:\n  geo: " . $latitude . "," . $longitude . "\n  image: map_" . $title . ".png";
             $weather = \Corvus\Darksky::getWeather($latitude, $longitude);
             $yaml_weather = "\nweather:";
@@ -125,7 +125,7 @@ class GitHub {
                 $yaml_syndicate_to .= "\n- " . $mastodon_uri;
             }
             if (isset($twitter_slug) and !empty($twitter_slug)) {
-                $yaml_syndicate_to .= "\n- https://twitter.com/" . \Corvus\Config::$twitter["username"] . "/status/" . $twitter_slug;
+                $yaml_syndicate_to .= "\n- https://twitter.com/" . \Config::$twitter["username"] . "/status/" . $twitter_slug;
             }
         }
 
@@ -135,14 +135,14 @@ class GitHub {
             if (is_array($photo)) {
                 foreach($photo as $single_photo) {
                     if (strpos($single_photo, "http") === false) {
-                        $single_photo = str_replace(\Corvus\Config::$static_path, \Corvus\Config::$site_url . "static/", $single_photo);
+                        $single_photo = str_replace(\Config::$static_path, \Config::$site_url . "static/", $single_photo);
                     }
                     $yaml_photo .= "\n- " . $single_photo;
                 }
             }
             else {
                 if (strpos($photo, "http") === false) {
-                    $photo = str_replace(\Corvus\Config::$static_path, \Corvus\Config::$site_url . "static/", $photo);
+                    $photo = str_replace(\Config::$static_path, \Config::$site_url . "static/", $photo);
                 }
                 $yaml_photo .= "\n- " . $photo;
             }
@@ -158,25 +158,25 @@ class GitHub {
             $github_content = "---" . $yaml_date . $yaml_like_of . $yaml_posting_method . $yaml_hide . "\n---\n";
         }
         else {
-            $github_content = "---" . $yaml_draft . $yaml_category . $yaml_date . $yaml_title . $yaml_lede . $yaml_tags . $yaml_checkin . $yaml_weather . $yaml_bookmark_of . $yaml_in_reply_to . $yaml_rsvp . $yaml_syndicate_to . $yaml_posting_method . $yaml_hide . $yaml_photo . "\n---\n" . \API\convert_content($yaml_content, \Corvus\Config::$site_url) . "\n";
+            $github_content = "---" . $yaml_draft . $yaml_category . $yaml_date . $yaml_title . $yaml_lede . $yaml_tags . $yaml_checkin . $yaml_weather . $yaml_bookmark_of . $yaml_in_reply_to . $yaml_rsvp . $yaml_syndicate_to . $yaml_posting_method . $yaml_hide . $yaml_photo . "\n---\n" . \API\convert_content($yaml_content, \Config::$site_url) . "\n";
         }
 
         // GitHub Commit Data
         $publish_data = array(
             "message" => "New " . ucfirst($data->category) . ": " . $file_name,
             "committer" => array(
-                "name" => \Corvus\Config::$github["name"],
-                "email" => \Corvus\Config::$github["email"]
+                "name" => \Config::$github["name"],
+                "email" => \Config::$github["email"]
             ),
             "content" => base64_encode($github_content),
         );
 
         // PUT the data on GitHub
-        $url = \Corvus\Config::$site_url . $data->category . "/" . \API\slugify($title) . "/";
-        $github_api_url = "https://api.github.com/repos/" . \Corvus\Config::$github["username"] . "/" . \Corvus\Config::$github["repository"] . "/contents/" . ($data->status === "draft" ? "_drafts" : "_posts/" . $data->directory) . "/" . $file_name;
+        $url = \Config::$site_url . $data->category . "/" . \API\slugify($title) . "/";
+        $github_api_url = "https://api.github.com/repos/" . \Config::$github["username"] . "/" . \Config::$github["repository"] . "/contents/" . ($data->status === "draft" ? "_drafts" : "_posts/" . $data->directory) . "/" . $file_name;
         $GITHUB_curl = curl_init($github_api_url);
         curl_setopt($GITHUB_curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($GITHUB_curl, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
+        curl_setopt($GITHUB_curl, CURLOPT_HTTPHEADER, array("User-Agent: " . \Config::$name, "Authorization: token " . \Config::$github["token"]));
         curl_setopt($GITHUB_curl, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($GITHUB_curl, CURLOPT_POSTFIELDS, json_encode($publish_data));
 
@@ -220,8 +220,8 @@ class GitHub {
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/" . \Corvus\Config::$github["username"] . "/" . \Corvus\Config::$github["repository"] . "/contents/_posts/" . $directory);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
+        curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/" . \Config::$github["username"] . "/" . \Config::$github["repository"] . "/contents/_posts/" . $directory);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Config::$name, "Authorization: token " . \Config::$github["token"]));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);
@@ -236,7 +236,7 @@ class GitHub {
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $lookup_url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Config::$name, "Authorization: token " . \Config::$github["token"]));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);
@@ -248,17 +248,17 @@ class GitHub {
         $publish_data = array(
             "message" => "Update: " . $file_name,
             "committer" => array(
-                "name" => \Corvus\Config::$github["name"],
-                "email" => \Corvus\Config::$github["email"]
+                "name" => \Config::$github["name"],
+                "email" => \Config::$github["email"]
             ),
             "content" => base64_encode($content),
             "sha" => $sha
         );
 
-        $github_api_url = "https://api.github.com/repos/" . \Corvus\Config::$github["username"] . "/" . \Corvus\Config::$github["repository"] . "/contents/_posts/" . $directory . "/" . $file_name;
+        $github_api_url = "https://api.github.com/repos/" . \Config::$github["username"] . "/" . \Config::$github["repository"] . "/contents/_posts/" . $directory . "/" . $file_name;
         $GITHUB_curl = curl_init($github_api_url);
         curl_setopt($GITHUB_curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($GITHUB_curl, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
+        curl_setopt($GITHUB_curl, CURLOPT_HTTPHEADER, array("User-Agent: " . \Config::$name, "Authorization: token " . \Config::$github["token"]));
         curl_setopt($GITHUB_curl, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($GITHUB_curl, CURLOPT_POSTFIELDS, json_encode($publish_data));
 
@@ -298,8 +298,8 @@ class GitHub {
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/" . \Corvus\Config::$github["username"] . "/" . \Corvus\Config::$github["repository"] . "/contents/_posts/" . $directory);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
+        curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/" . \Config::$github["username"] . "/" . \Config::$github["repository"] . "/contents/_posts/" . $directory);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Config::$name, "Authorization: token " . \Config::$github["token"]));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);
@@ -314,7 +314,7 @@ class GitHub {
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $lookup_url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: " . \Config::$name, "Authorization: token " . \Config::$github["token"]));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);
@@ -325,16 +325,16 @@ class GitHub {
         $publish_data = array(
             "message" => "Delete: " . $file_name,
             "committer" => array(
-                "name" => \Corvus\Config::$github["name"],
-                "email" => \Corvus\Config::$github["email"]
+                "name" => \Config::$github["name"],
+                "email" => \Config::$github["email"]
             ),
             "sha" => $sha
         );
 
-        $github_api_url = "https://api.github.com/repos/" . \Corvus\Config::$github["username"] . "/" . \Corvus\Config::$github["repository"] . "/contents/_posts/" . $directory . "/" . $file_name;
+        $github_api_url = "https://api.github.com/repos/" . \Config::$github["username"] . "/" . \Config::$github["repository"] . "/contents/_posts/" . $directory . "/" . $file_name;
         $GITHUB_curl = curl_init($github_api_url);
         curl_setopt($GITHUB_curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($GITHUB_curl, CURLOPT_HTTPHEADER, array("User-Agent: " . \Corvus\Config::$name, "Authorization: token " . \Corvus\Config::$github["token"]));
+        curl_setopt($GITHUB_curl, CURLOPT_HTTPHEADER, array("User-Agent: " . \Config::$name, "Authorization: token " . \Config::$github["token"]));
         curl_setopt($GITHUB_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($GITHUB_curl, CURLOPT_POSTFIELDS, json_encode($publish_data));
 

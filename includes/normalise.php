@@ -10,5 +10,3 @@ $_HEADERS = array();
 foreach(\API\getallheaders() as $name => $value) {
     $_HEADERS[$name] = $value;
 }
-
-?>
